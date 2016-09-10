@@ -1,0 +1,43 @@
+#!/usr/bin/python
+
+from pyeemd import eemd
+from pyeemd.utils import plot_imfs
+
+import numpy as np
+import sys
+
+from os import listdir, makedirs
+from os.path import isfile, join, exists
+
+in_dir = sys.argv[1]
+out_dir = sys.argv[2]
+print 'reading all .txt file in the directory: {0}'.format(in_dir)
+print 'the output directory is: {0}'.format(out_dir)
+
+if not exists(out_dir):
+    print 'output directory doesn\'t exist make {0}'.format(out_dir)
+    makedirs(out_dir)
+
+filenames = [ file for file in listdir(in_dir) if file.endswith("txt")]
+for filename in filenames:
+
+    # directory should not end with .txt
+    out_dir = "{0}imfs/{1}/".format( out_dir, filename.replace('.txt','') )
+
+    knee = np.loadtxt( in_dir + filename, delimiter='\n')
+
+    if not exists(out_dir):
+        print 'directory doesn\'t exist make {0}'.format( out_dir )
+        makedirs(out_dir)
+
+    print 'running eemd on {0}'.format( filename )
+    imfs = eemd( knee, ensemble_size=50, num_siftings=10)
+    imfsAndRaw = np.vstack(( knee, imfs ))
+
+    for i, x in enumerate( imfsAndRaw ):
+        print 'saving eemd #{0}'.format(i)
+        np.savetxt( out_dir + str(i) + '.txt', x, delimiter='\n')
+        # print 'saving eemd'
+        # np.savetxt( out_dir + filenames[10] , imfsAndRaw, delimiter=',')
+
+    print 'finish {0}'.format( filename )

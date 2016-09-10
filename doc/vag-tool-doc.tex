@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{geometry}
+\geometry{
+  margin=4cm
+}
+\author{Tanut Aranchayanont}
+\usepackage{dirtree}
+
+\title{VAG tool documentation}
+\begin{document}
+\maketitle
+
+This is an update summary of VAG signal processing scripts used in the article \emph{Spectral Analysis on Vibroartrographic Signal of Total Knee Arthroplasty}. There are two issues solve in this version:
+\begin{itemize}
+  \item Break the file allocation dependency. Former script use file allocation convention to run script properly, \emph{i.e.}, the new data set need to be place in the correct directory, for example, \texttt{../../data/}.
+  \item Use R library for plotting.
+\end{itemize}
+The overview of all code and folder structure is shown below:
+
+\dirtree{%
+.1 vag-tool.
+.2 doc // documentation latex source code.
+.2 lib // this folder contains external library used to write up the script.
+.3 cdfa.
+.3 gsl-2.2.1.
+.3 libeemd.
+.3 README.
+.2 src // code written in this project.
+.3 .
+.3 $\ldots$.
+}
+
+\section*{Installation}
+Prerequisite is scientific python and r which can be easily installed on Debian linux with the command:
+\begin{verbatim}
+$ sudo apt-get install build-essential python-pip3 python3 ipython3 r-base
+$ pip install numpy scipy matplotlib
+\end{verbatim}
+Then copy the folder \texttt{vag-tool} to your computer. In order to make command line know the new script, we have to export the new path to the folder, which can be done easily by:
+\begin{verbatim}
+$ export PATH=$PATH:/path/to/vag-tool/src/
+\end{verbatim}
+Additionally, we can add this line to the \texttt{.bash\_profile} or \texttt{.bashrc} to make this line execute every time we attend the terminal session.
+
+\section*{Usage}
+\subsection*{EEMD with libeemd}
+For IMFs, EEMD algorithm take a single time signal located at path, \texttt{in\_path} and output the set of IMF to the output directory \texttt{out\_dir}. In case multiple input files, there is a script called \texttt{signal\_to\_imfs\_all} which replace path to input file, \texttt{in\_path} with path to input directory \texttt{in\_dir}
+\begin{verbatim}
+$ signal_to_imfs in_path out_dir\\
+$ signal_to_imfs_all in_dir out_dir
+\end{verbatim}
+\subsection*{DFA}
+After downloading library DFA and \texttt{make} process, there will be an executable \texttt{dfa}. This exececutable can be used directly one by one to create DFA pairs but not very convenient when we would like to process over the directory so that \texttt{script\_dfa.sh} is introduced.\\
+\begin{verbatim}
+\end{verbatim}
+
+The parameter $\alpha$ is calculated from DFA pairs. Each IMFs is composed back with the alpha criterion, for example, $\alpha > 0.5$. Both steps (1) obtain $\alpha$ of each IMF (2) composite the IMFs back due to alpha criterion are done with \texttt{use\_dfa} and \texttt{use\_dfa\_all}.
+
+
+
+
+\end{document}
