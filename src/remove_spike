@@ -4,7 +4,6 @@ import numpy as np
 from scipy import signal
 import sys
 
-
 # criterion:
 # spike are any point that twice over 80 percentile
 
@@ -20,14 +19,15 @@ print '===> output signal file will be written to: {0}'.format(out_path)
 print '===> spike will be written to: {0}'.format(spike_path)
 
 sig = np.loadtxt(in_path)
-eighty = np.percentile(sig, 80)
-is_spike = sig > 2*eighty
+eighty = np.percentile(sig, 99)
+is_spike = np.abs(sig) > np.abs(eighty)
 
-med_sig = signal.medfilt(sig, 5)
-no_spike = sig * ~is_spike + med_sig * is_spike
-spike = (sig * is_spike) - med_sig * is_spike
+med_sig = signal.medfilt(sig, 75)
+no_spike = (sig * ~is_spike) + (med_sig * is_spike)
+spike = (sig * is_spike) - (med_sig * is_spike)
 
 #output
+np.savetxt('./med', med_sig, delimiter='\n')
 np.savetxt(out_path, no_spike, delimiter='\n')
 np.savetxt(spike_path, spike, delimiter='\n')
 

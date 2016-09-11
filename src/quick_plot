@@ -1,0 +1,14 @@
+#!/usr/bin/python
+
+import matplotlib.pyplot as plt
+from numpy import loadtxt
+from sys import argv
+
+in_dir = argv[1]
+
+sig = loadtxt(in_dir)
+plt.plot(sig)
+plt.show()
+
+
+
