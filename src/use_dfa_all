@@ -6,26 +6,20 @@ from natsort import natsorted, ns
 from os import listdir , makedirs
 from os.path import isfile, isdir, join, exists
 
+# EDIT HERE
 def isPass(alpha):
     criterion = 0.5
     # return alpha > criterion    
     return alpha < criterion
 
-alpha_criterion = {
-    # EDIT HERE
-    # "dir_string": "discard_lt_0.5",
-    "dir_string": "discard_gt_0.5",
-    "isPass": isPass
-}
+imfs_dir = sys.argv[1]
+dfa_pair_dir = sys.argv[2]
+alpha_dir = sys.argv[3]
+signal_after_dfa_dir = sys.argv[4]
 
-
-# EDIT HERE
-processing_type = "sr"
-dir_prefix = "../../data/{0}/".format( processing_type )
-imfs_dir = dir_prefix + "imfs/"
-dfa_pair_dir = dir_prefix + "dfa_pair/"
-alpha_dir = dir_prefix + "alpha/"
-signal_after_dfa_dir = dir_prefix + "/signal/after_dfa/{0}/".format(alpha_criterion["dir_string"])
+for dir_to_ensure in [ imfs_dir, dfa_pair_dir, alpha_dir, signal_after_dfa_dir ]:
+    if not dir_to_ensure.endswith('/'):
+        dir_to_ensure += '/'
 
 
 # MAKEDIR if not exists
@@ -40,13 +34,14 @@ direcs = [ direc for direc in listdir(dfa_pair_dir) if isdir(join(dfa_pair_dir,d
 
 for direc in direcs:
     
-    in_dir = dfa_pair_dir + direc + '/'
+    in_dir = dfa_pair_dir + '/' + direc + '/'
 
     filenames = [ file for file in listdir(in_dir) if file.endswith("txt") and not file.startswith("0") ]
     filenames = natsorted( filenames, key=lambda y: y.lower() )
     filenames = natsorted( filenames, alg=ns.IGNORECASE )
     # mutated it
 
+    print '===> filenames are:'
     print filenames
 
     alpha_list = ""
@@ -54,12 +49,12 @@ for direc in direcs:
     qualified_imfs_list = []
 
     for f in filenames[:-1]:
-        print in_dir + f
+        print 'accumulating: ' + in_dir + f
         s, F = np.genfromtxt( in_dir + f, unpack=True)
         alpha = np.polyfit( s, F, 1 )[0]
         alpha_list += "{0},{1}\n".format( f.replace('.txt',''), alpha )
 
-        if( alpha_criterion["isPass"](alpha) ):
+        if( isPass(alpha) ):
             qualified_imfs_list.append(f)
 
 
@@ -78,7 +73,7 @@ for direc in direcs:
 
     for i, f in enumerate(qualified_imfs_list):
         if i==0:
-            out_signal = np.loadtxt( imfs_dir + direc + '/' + f )
+            out_signal = np.loadtxt( imfs_dir + '/' + direc + '/' + f )
         else :
             out_signal += np.loadtxt( imfs_dir + direc + '/' + f )
 

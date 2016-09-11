@@ -56,9 +56,13 @@ $ signal_to_imfs_all in_dir out_dir
 \subsection*{DFA}
 After downloading library DFA and \texttt{make} process, there will be an executable \texttt{dfa}. This exececutable can be used directly one by one to create DFA pairs but not very convenient when we would like to process over the directory so that \texttt{script\_dfa.sh} is introduced.\\
 \begin{verbatim}
+$ script\_dfa in_dir dfa_pair_out_dir
 \end{verbatim}
 
 The parameter $\alpha$ is calculated from DFA pairs. Each IMFs is composed back with the alpha criterion, for example, $\alpha > 0.5$. Both steps (1) obtain $\alpha$ of each IMF (2) composite the IMFs back due to alpha criterion are done with \texttt{use\_dfa} and \texttt{use\_dfa\_all}.
+\begin{verbatim}
+$ use_dfa_all imfs_dir dfa_pair_dir alpha_out_dir final_signal_dir
+\end{verbatim}
 
 \section*{Working example}
 Let assume there are the data at directory \texttt{sample}:
