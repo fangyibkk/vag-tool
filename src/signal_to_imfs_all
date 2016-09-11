@@ -9,25 +9,31 @@ import sys
 from os import listdir, makedirs
 from os.path import isfile, join, exists
 
-in_dir = sys.argv[1]
-out_dir = sys.argv[2]
-print 'reading all .txt file in the directory: {0}'.format(in_dir)
-print 'the output directory is: {0}'.format(out_dir)
+# Reading argument from the command line
+in_dir = sys.argv[1] + '/'
+parent_out_dir = sys.argv[2] + '/'
+if not in_dir.endswith('/'):
+    in_dir += '/'
+if not parent_out_dir.endswith('/'):
+    parent_out_dir += '/'
 
-if not exists(out_dir):
-    print 'output directory doesn\'t exist make {0}'.format(out_dir)
-    makedirs(out_dir)
+print '===> reading all .txt file in the directory: {0}'.format(in_dir)
+print '===> the parent output directory is: {0}'.format(parent_out_dir)
+
+if not exists(parent_out_dir):
+    print '===> parent output directory doesn\'t exist make {0}'.format(parent_out_dir)
+    makedirs(parent_out_dir)
 
 filenames = [ file for file in listdir(in_dir) if file.endswith("txt")]
 for filename in filenames:
 
     # directory should not end with .txt
-    out_dir = "{0}imfs/{1}/".format( out_dir, filename.replace('.txt','') )
+    out_dir = "{0}/{1}/".format(parent_out_dir, filename.replace('.txt','') )
 
-    knee = np.loadtxt( in_dir + filename, delimiter='\n')
+    knee = np.loadtxt(in_dir + filename, delimiter='\n')
 
     if not exists(out_dir):
-        print 'directory doesn\'t exist make {0}'.format( out_dir )
+        print 'output directory doesn\'t exist make {0}'.format(out_dir)
         makedirs(out_dir)
 
     print 'running eemd on {0}'.format( filename )

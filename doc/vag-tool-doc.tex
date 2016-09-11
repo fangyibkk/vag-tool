@@ -56,6 +56,35 @@ After downloading library DFA and \texttt{make} process, there will be an execut
 
 The parameter $\alpha$ is calculated from DFA pairs. Each IMFs is composed back with the alpha criterion, for example, $\alpha > 0.5$. Both steps (1) obtain $\alpha$ of each IMF (2) composite the IMFs back due to alpha criterion are done with \texttt{use\_dfa} and \texttt{use\_dfa\_all}.
 
+\section*{Working example}
+Let assume there are the data at directory \texttt{sample}:
+
+\dirtree{%
+.1 sample.
+.2 s1.txt.
+.2 s2.txt.
+}
+then processed with \texttt{signal\_to\_imfs\_all}
+\begin{verbatim}
+$ signal_to_imfs_all sample/ imfs/
+\end{verbatim}
+and finally out put to the folder \texttt{imfs}
+
+\dirtree{%
+.1 imfs.
+.2 s1.
+.3 0.txt.
+.3 1.txt.
+.3 2.txt.
+.3 3.txt.
+.3 4.txt.
+.2 s2.
+.3 0.txt.
+.3 1.txt.
+.3 2.txt.
+.3 3.txt.
+.3 4.txt.
+}
 
 
 
