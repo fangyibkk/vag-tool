@@ -10,23 +10,27 @@
 \begin{document}
 \maketitle
 
-This is an update summary of VAG signal processing scripts used in the article \emph{Spectral Analysis on Vibroartrographic Signal of Total Knee Arthroplasty}. There are two issues solve in this version:
+This is an update summary of VAG signal processing scripts used in the article \emph{Spectral Analysis on Vibroartrographic Signal of Total Knee Arthroplasty}. There are two issues intended to solve in this version:
 \begin{itemize}
   \item Break the file allocation dependency. Former script use file allocation convention to run script properly, \emph{i.e.}, the new data set need to be place in the correct directory, for example, \texttt{../../data/}.
-  \item Use R library for plotting.
+  \item Use R library for plotting. \texttt{ggplot} library provides a publication-quality plotting library and is open source (in progress).
 \end{itemize}
 The overview of all code and folder structure is shown below:
-
 \dirtree{%
 .1 vag-tool.
 .2 doc // documentation latex source code.
-.2 lib // this folder contains external library used to write up the script.
+.2 lib // external library used to write up the script.
 .3 cdfa.
 .3 gsl-2.2.1.
 .3 libeemd.
 .3 README.
 .2 src // code written in this project.
-.3 .
+.3 signal\_to\_imfs.
+.3 signal\_to\_imfs\_all.
+.3 remove\_spike.
+.3 script\_dfa.sh.
+.3 use\_dfa.
+.3 use\_dfa\_all.
 .3 $\ldots$.
 }
 
