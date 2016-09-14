@@ -13,14 +13,24 @@ echo "===> Your output parent directory is: $2"
 
 for d in $parent_in_dir/*; do
     echo "===> working on subdirectory $d"
-    for f in $d/*; do
-        echo "process file in the subdirectory: $f"
-	out_dir=$parent_out_dir$(echo $d | sed "s;$parent_in_dir;;")
-	out_name=$parent_out_dir$(echo $f | sed "s;$parent_in_dir;;")
-	# create dir if not exists
-	[ -d $out_dir ] || mkdir -p $out_dir
+    if [ -d $d ]; then
+	   echo $d" is directory start looping"
+	   for f in $d/*; do
+	       echo "process file in the subdirectory: $f"
+	       out_dir=$parent_out_dir$(echo $d | sed "s;$parent_in_dir;;")
+	       out_name=$parent_out_dir$(echo $f | sed "s;$parent_in_dir;;")
+	       # create dir if not exists
+	       [ -d $out_dir ] || mkdir -p $out_dir
 
-	echo "write to $out_name"
-        dfa < $f > $out_name
-    done
+	       echo "write to $out_name"
+	       dfa < $f > $out_name
+	   done
+    elif [ -f $d ]; then
+	 echo $d" is file use dfa directly"
+	 out_name=$parent_out_dir$(echo $d | sed "s;$parent_in_dir;;")
+	 # echo $out_name
+	 dfa < $d > $out_name
+    else
+	echo "ERROR: "$d" is neither file or directory"
+    fi
 done

@@ -12,15 +12,13 @@ def isPass(alpha):
     # return alpha > criterion    
     return alpha < criterion
 
-imfs_dir = sys.argv[1]
-dfa_pair_dir = sys.argv[2]
-alpha_dir = sys.argv[3]
-signal_after_dfa_dir = sys.argv[4]
+def ensure_directory(direc):
+    return direc if direc.endswith('/') else direc + '/'
 
-for dir_to_ensure in [ imfs_dir, dfa_pair_dir, alpha_dir, signal_after_dfa_dir ]:
-    if not dir_to_ensure.endswith('/'):
-        dir_to_ensure += '/'
-
+imfs_dir = ensure_directory(sys.argv[1])
+dfa_pair_dir = ensure_directory(sys.argv[2])
+alpha_dir = ensure_directory(sys.argv[3])
+signal_after_dfa_dir = ensure_directory(sys.argv[4])
 
 # MAKEDIR if not exists
 for out_dir_to_check in [ dfa_pair_dir, alpha_dir, signal_after_dfa_dir ]:
